@@ -67,7 +67,7 @@ export const ContactsList = () => {
             ))}
           </ul>
         ) : (
-          <p>
+          <p className="notFoundRequest">
             Nothing was found in your contact list by <b>{filter}</b>.
           </p>
         ))}

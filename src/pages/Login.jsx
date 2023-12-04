@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Notify } from 'notiflix';
 
-export const Login = () => {
+const Login = () => {
   const dispath = useDispatch();
 
   const isLoading = useSelector(selectAuthIsLoading);
@@ -73,3 +73,4 @@ export const Login = () => {
     </LoginWrapper>
   );
 };
+export default Login;

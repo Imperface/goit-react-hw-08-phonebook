@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Notify } from 'notiflix';
 
-export const Register = () => {
+const Register = () => {
   const dispath = useDispatch();
 
   const isLoading = useSelector(selectAuthIsLoading);
@@ -87,3 +87,5 @@ export const Register = () => {
     </RegisterWrapper>
   );
 };
+
+export default Register;

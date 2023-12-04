@@ -8,6 +8,11 @@ export const LayoutWrapper = styled.div`
   margin: 0 auto;
   padding: 0 20px;
   max-width: 1000px;
+  & .loader {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
   & main {
     flex-grow: 1;
   }

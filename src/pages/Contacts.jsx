@@ -7,7 +7,7 @@ import { ContactsWrapper } from './Contacts.styled';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-export const Contacts = () => {
+const Contacts = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -21,3 +21,4 @@ export const Contacts = () => {
     </ContactsWrapper>
   );
 };
+export default Contacts;

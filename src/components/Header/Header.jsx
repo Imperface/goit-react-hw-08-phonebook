@@ -24,7 +24,7 @@ export const Header = () => {
             {!isLogin ? (
               <>
                 <li>
-                  <NavLink to="/login">Register</NavLink>
+                  <NavLink to="/register">Register</NavLink>
                 </li>
                 <li>
                   <NavLink to="/">LogIn</NavLink>

@@ -1,6 +1,6 @@
-import { Layout } from 'components';
-import { Contacts, Register, Login } from 'pages';
-import { useEffect } from 'react';
+import { Layout, Loader } from 'components';
+// import { Register, Login } from 'pages';
+import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { refreshThunk } from 'redux/auth/operations';
@@ -11,6 +11,10 @@ import { AppWrapper } from './App.styled';
 
 import * as ROUTES from 'constans/routes';
 import { PrivatRoute } from 'components/PrivateRoute/PrivateRoute';
+import { NotFound } from 'pages/NotFound';
+const Contacts = lazy(() => import('pages/Contacts'));
+const Register = lazy(() => import('pages/Register'));
+const Login = lazy(() => import('pages/Login'));
 
 const appRoutes = [
   {
@@ -49,13 +53,15 @@ export const App = () => {
   return (
     <AppWrapper>
       <Layout>
-        <Routes>
-          {appRoutes.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
-          ))}
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            {appRoutes.map(({ path, element }) => (
+              <Route key={path} path={path} element={element} />
+            ))}
 
-          {/* <Route path="*" /> */}
-        </Routes>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </Layout>
     </AppWrapper>
   );

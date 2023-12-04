@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 
 export const AppWrapper = styled.div`
-  background-color: #1b1b1b;
-  height: 100vh;
-  overflow: hidden;
+  background: linear-gradient(to left top, blue, green);
+  min-height: 100vh;
   color: white;
+
   & ul {
     list-style: none;
     margin: 0;
+    padding: 0;
   }
 
   & p,

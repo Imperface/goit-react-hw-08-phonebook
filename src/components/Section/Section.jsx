@@ -1,7 +1,5 @@
-// import component
 import { Container } from 'components';
 
-// import styled component
 import { SectionWrapper } from './Section.styled';
 
 export const Section = ({ title, children, className }) => {

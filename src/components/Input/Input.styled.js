@@ -9,6 +9,9 @@ export const InputLabel = styled.label`
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
+  transition: all 0.5s;
+  &:focus {
+  }
 
   & span {
     display: flex;
@@ -17,18 +20,24 @@ export const InputLabel = styled.label`
     align-items: center;
 
     & svg {
-      width: 24px;
-      height: 24px;
+      width: 34px;
+      height: 34px;
     }
   }
+
   & input {
     outline: none;
     padding: 10px;
-    border: 1px solid black;
+    border: 1px solid #be89fc;
     border-radius: 10px;
     transition: all 0.2s;
     background-color: transparent;
     color: inherit;
+    text-align: center;
+
+    &:focus {
+      border: 1px solid yellow;
+    }
 
     &::placeholder {
       color: inherit;

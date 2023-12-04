@@ -1,8 +1,7 @@
-// import styled component
 import { NotificationWrapper } from './Notification.styled';
 
 export const Notification = () => (
-  <NotificationWrapper>
+  <NotificationWrapper className="notification">
     Your contact list is empty. Please add a constact.
   </NotificationWrapper>
 );

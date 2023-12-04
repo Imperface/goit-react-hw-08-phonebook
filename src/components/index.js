@@ -8,3 +8,7 @@ export { Notification } from './Notification/Notification';
 export { Container } from './Container/Container';
 export { Filter } from './Filter/Filter';
 export { Loader } from './Loader/Loader';
+export { Header } from './Header/Header';
+export { Footer } from './Footer/Footer';
+export { Layout } from './Layout/Layout';
+export { Error } from './Error/Error';

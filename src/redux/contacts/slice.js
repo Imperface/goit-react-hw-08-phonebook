@@ -1,5 +1,4 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { Notify } from 'notiflix';
 import {
   fetchContacts,
   addContact,
@@ -7,7 +6,9 @@ import {
 } from 'redux/contacts/operations';
 const initialState = {
   items: [],
-  isLoading: false,
+  isLoadingAll: false,
+  isLoadingAdd: false,
+  isLoadingDelete: false,
   error: '',
 };
 
@@ -17,19 +18,16 @@ const contactsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.fulfilled, (state, { payload }) => {
-        if (payload.length > 0) {
-          Notify.success(`Loaded ${payload.length} contacts.`);
-        }
         return {
           ...state,
           items: payload,
-          isLoading: false,
+          isLoadingAll: false,
         };
       })
       .addCase(addContact.fulfilled, (state, { payload }) => {
         return {
           ...state,
-          isLoading: false,
+          isLoadingAdd: false,
           items: [payload, ...state.items],
         };
       })
@@ -37,23 +35,30 @@ const contactsSlice = createSlice({
         return {
           ...state,
           items: state.items.filter(contact => contact.id !== payload.id),
-          isLoading: false,
+          isLoadingDelete: false,
         };
       })
-      .addMatcher(
-        isAnyOf(
-          fetchContacts.pending,
-          addContact.pending,
-          deleteContact.pending
-        ),
-        state => {
-          return {
-            ...state,
-            isLoading: true,
-            error: '',
-          };
-        }
-      )
+      .addCase(fetchContacts.pending, state => {
+        return {
+          ...state,
+          isLoadingAll: true,
+          error: '',
+        };
+      })
+      .addCase(addContact.pending, state => {
+        return {
+          ...state,
+          isLoadingAdd: true,
+          error: '',
+        };
+      })
+      .addCase(deleteContact.pending, state => {
+        return {
+          ...state,
+          isLoadingDelete: true,
+          error: '',
+        };
+      })
       .addMatcher(
         isAnyOf(
           fetchContacts.rejected,
@@ -63,7 +68,9 @@ const contactsSlice = createSlice({
         (state, { payload }) => {
           return {
             ...state,
-            isLoading: false,
+            isLoadingAll: false,
+            isLoadingAdd: false,
+            isLoadingDelete: false,
             error: payload,
           };
         }

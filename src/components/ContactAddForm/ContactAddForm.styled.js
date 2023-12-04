@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 export const ContactAddFormWrapper = styled.div`
+  margin: 0 auto;
+
   & form {
-    background-color: #3a3a3a;
     margin: 0 auto;
     padding: 20px;
     display: flex;
@@ -10,5 +11,9 @@ export const ContactAddFormWrapper = styled.div`
     row-gap: 20px;
     border-radius: 20px;
     overflow: hidden;
+    border: 1px dotted yellow;
+  }
+  & .error {
+    max-width: 200px;
   }
 `;

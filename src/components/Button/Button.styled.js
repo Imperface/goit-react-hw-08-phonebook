@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import React, { Fragment } from 'react';
 
 export const ButtonWrapper = styled.button`
   display: block;
@@ -6,18 +7,26 @@ export const ButtonWrapper = styled.button`
   padding: 10px 20px;
   color: #000;
   text-align: center;
-  transition: all 0.2s;
+  transition: all 0.5s;
   cursor: pointer;
   background-color: #34b6fe;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: #fff;
     background-color: #c199f2;
     border-color: transparent;
-    color: white;
+    color: #23036a;
   }
-  &:active {
+  &:active&:not(:disabled) {
     background-color: #3e8e41;
+    transform: translateY(4px);
+  }
+  &:disabled {
+    cursor: wait;
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
     transform: translateY(4px);
   }
   & span {
@@ -28,8 +37,8 @@ export const ButtonWrapper = styled.button`
     pointer-events: none;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 34px;
+      height: 34px;
     }
   }
 `;

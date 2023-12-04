@@ -1,24 +1,20 @@
-// import component
 import { Input } from 'components';
 
-// import selector and actionCreator
 import { setFilter } from 'redux/filter/slice';
 import { selectFilter } from 'redux/filter/selectors';
 
-// import styled component
 import { FilterWrapper } from './Filter.styled';
 
-// import icon
 import { BsSearch } from 'react-icons/bs';
 
-// other import
 import throttle from 'lodash.throttle';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const Filter = () => {
   const dispatch = useDispatch();
 
-  //get filter value for cleaning filterInput value
+  // get filter value for cleaning filterInput value
+  // when new contact added
   const filterValue = useSelector(selectFilter);
 
   const onFilterInput = e => {
@@ -30,7 +26,6 @@ export const Filter = () => {
       filterValue = filterValue.toLowerCase();
     }
 
-    // sending payload
     dispatch(setFilter(filterValue));
   };
 
@@ -41,7 +36,6 @@ export const Filter = () => {
         name="filter"
         placeholder={'Contact filtering'}
         icon={() => <BsSearch />}
-        // throttling callback
         onFilterInput={throttle(onFilterInput, 2000)}
         filterValue={filterValue}
       />

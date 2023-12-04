@@ -6,11 +6,11 @@ export const ContactItemWrapper = styled.li`
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
-  background-color: #252525;
+  background: linear-gradient(to left top, green, blue);
   border-radius: 20px;
 
   & p {
-    padding: 5px 0;
+    padding: 10px 0;
     text-align: left;
   }
 `;

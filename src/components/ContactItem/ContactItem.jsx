@@ -1,39 +1,31 @@
-// import component
 import { Button } from 'components';
 
-// import async thunk
 import { deleteContact } from 'redux/contacts/operations';
-import { selectContactsIsLoading } from 'redux/contacts/selectors';
+import { selectContactsIsLoadingDelete } from 'redux/contacts/selectors';
 
-// import styled component
-import { ContactItemWrapper } from './ContactItem.styled';
-
-// import icon
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
-// other import
-import { useDispatch, useSelector } from 'react-redux';
-import { Notify } from 'notiflix';
+import { ContactItemWrapper } from './ContactItem.styled';
 
-export const ContactItem = ({ name, phone, id }) => {
+import { useDispatch, useSelector } from 'react-redux';
+
+export const ContactItem = ({ name, number, id }) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectContactsIsLoading);
-  const onBtnClick = () => {
-    dispatch(deleteContact(id));
-    Notify.success(`The contact ${name} successfully deleted.`);
-  };
+
+  const isLoading = useSelector(selectContactsIsLoadingDelete);
+
   return (
     <ContactItemWrapper>
       <div>
         <p>
           <b>{name}</b>
         </p>
-        <p>{phone}</p>
+        <p>{number}</p>
       </div>
       <Button
         text="Delete"
         type="button"
-        deleteContact={onBtnClick}
+        callback={() => dispatch(deleteContact(id))}
         isLoading={isLoading}
         icon={() => <RiDeleteBin6Line />}
       />

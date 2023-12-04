@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import React, { Fragment } from 'react';
 
 export const ButtonWrapper = styled.button`
   display: block;

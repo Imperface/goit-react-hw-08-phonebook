@@ -43,7 +43,6 @@ const Register = () => {
   };
 
   // reset error message
-
   useEffect(() => {
     dispath(clearError());
   }, [dispath]);

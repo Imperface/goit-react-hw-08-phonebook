@@ -1,4 +1,5 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { LOGIN, LOGOUT, REFRESH, REGISTER } from 'constans/operationType';
 import {
   loginThunk,
   logoutThunk,
@@ -12,6 +13,7 @@ const initialState = {
   isLogin: false,
   isLoading: false,
   error: '',
+  operation: '',
 };
 
 const authSlice = createSlice({
@@ -20,6 +22,9 @@ const authSlice = createSlice({
   reducers: {
     clearError: state => {
       return { ...state, error: '' };
+    },
+    clearAuthOperation: state => {
+      return { ...state, operation: '' };
     },
   },
   extraReducers: builder => {
@@ -31,6 +36,7 @@ const authSlice = createSlice({
           token: payload.token,
           isLoading: false,
           isLogin: true,
+          operation: REGISTER,
         };
       })
 
@@ -41,11 +47,12 @@ const authSlice = createSlice({
           token: payload.token,
           isLoading: false,
           isLogin: true,
+          operation: LOGIN,
         };
       })
 
       .addCase(logoutThunk.fulfilled, () => {
-        return initialState;
+        return { ...initialState, operation: LOGOUT };
       })
       .addCase(refreshThunk.fulfilled, (state, { payload }) => {
         return {
@@ -53,6 +60,7 @@ const authSlice = createSlice({
           isLoading: false,
           isLogin: true,
           user: { name: payload.name, email: payload.email },
+          operation: REFRESH,
         };
       })
       .addMatcher(
@@ -83,10 +91,11 @@ const authSlice = createSlice({
             ...state,
             isLoading: false,
             error: payload,
+            operation: '',
           };
         }
       );
   },
 });
 export const authReduser = authSlice.reducer;
-export const { clearError } = authSlice.actions;
+export const { clearError, clearAuthOperation } = authSlice.actions;

@@ -1,7 +1,10 @@
 import { Button } from 'components';
 
 import { deleteContact } from 'redux/contacts/operations';
-import { selectContactsIsLoadingDelete } from 'redux/contacts/selectors';
+import {
+  selectContactsIsLoadingDelete,
+  selectContactsOperation,
+} from 'redux/contacts/selectors';
 
 import { RiDeleteBin6Line } from 'react-icons/ri';
 

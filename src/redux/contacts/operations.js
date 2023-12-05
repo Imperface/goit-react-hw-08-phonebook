@@ -2,17 +2,10 @@ import { instance } from 'redux/auth/operations';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-const setToken = token => {
-  instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const state = thunkAPI.getState();
-      const token = state.auth.token;
-      setToken(token);
       const { data } = await instance.get('/contacts');
       return data;
     } catch (error) {

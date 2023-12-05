@@ -1,5 +1,10 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
+  ADD_CONTACT,
+  DELETE_CONTACT,
+  FETCH_CONTACTS,
+} from 'constans/operationType';
+import {
   fetchContacts,
   addContact,
   deleteContact,
@@ -10,11 +15,17 @@ const initialState = {
   isLoadingAdd: false,
   isLoadingDelete: false,
   error: '',
+  operation: '',
 };
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: initialState,
+  reducers: {
+    clearContactsOperation: state => {
+      return { ...state, operation: '' };
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.fulfilled, (state, { payload }) => {
@@ -22,6 +33,7 @@ const contactsSlice = createSlice({
           ...state,
           items: payload,
           isLoadingAll: false,
+          operation: FETCH_CONTACTS,
         };
       })
       .addCase(addContact.fulfilled, (state, { payload }) => {
@@ -29,6 +41,7 @@ const contactsSlice = createSlice({
           ...state,
           isLoadingAdd: false,
           items: [payload, ...state.items],
+          operation: ADD_CONTACT,
         };
       })
       .addCase(deleteContact.fulfilled, (state, { payload }) => {
@@ -36,6 +49,7 @@ const contactsSlice = createSlice({
           ...state,
           items: state.items.filter(contact => contact.id !== payload.id),
           isLoadingDelete: false,
+          operation: DELETE_CONTACT,
         };
       })
       .addCase(fetchContacts.pending, state => {
@@ -43,6 +57,7 @@ const contactsSlice = createSlice({
           ...state,
           isLoadingAll: true,
           error: '',
+          operation: '',
         };
       })
       .addCase(addContact.pending, state => {
@@ -50,6 +65,7 @@ const contactsSlice = createSlice({
           ...state,
           isLoadingAdd: true,
           error: '',
+          operation: '',
         };
       })
       .addCase(deleteContact.pending, state => {
@@ -57,6 +73,7 @@ const contactsSlice = createSlice({
           ...state,
           isLoadingDelete: true,
           error: '',
+          operation: '',
         };
       })
       .addMatcher(
@@ -72,6 +89,7 @@ const contactsSlice = createSlice({
             isLoadingAdd: false,
             isLoadingDelete: false,
             error: payload,
+            operation: '',
           };
         }
       );
@@ -79,3 +97,4 @@ const contactsSlice = createSlice({
 });
 
 export const contactsReducer = contactsSlice.reducer;
+export const { clearContactsOperation } = contactsSlice.actions;

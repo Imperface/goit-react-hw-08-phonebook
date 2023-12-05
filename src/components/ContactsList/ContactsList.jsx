@@ -2,8 +2,9 @@ import { ContactItem, Notification, Filter, Error, Loader } from 'components';
 
 import {
   selectContacts,
-  SelectContactsError,
+  selectContactsError,
   selectContactsIsLoadingAll,
+  selectContactsOperation,
 } from 'redux/contacts/selectors';
 import { selectFilter } from 'redux/filter/selectors';
 import { fetchContacts } from 'redux/contacts/operations';
@@ -12,20 +13,42 @@ import { ContactsListWrapper } from './ContactsList.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { Notify } from 'notiflix';
+import {
+  DELETE_CONTACT,
+  FETCH_CONTACTS,
+  LOGIN,
+  REFRESH,
+  REGISTER,
+} from 'constans/operationType';
+import { clearContactsOperation } from 'redux/contacts/slice';
+import { selectAuthOperation } from 'redux/auth/selectors';
 
 export const ContactsList = () => {
   const [filteredContacts, setFilteredContacts] = useState([]);
 
   const dispatch = useDispatch();
 
-  const error = useSelector(SelectContactsError);
+  const error = useSelector(selectContactsError);
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
   const isLoading = useSelector(selectContactsIsLoadingAll);
 
+  const contactsOperation = useSelector(selectContactsOperation);
+  const authOperation = useSelector(selectAuthOperation);
+
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    if (authOperation === (LOGIN || REGISTER || REFRESH)) {
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, authOperation]);
+
+  useEffect(() => {
+    if (contactsOperation === DELETE_CONTACT) {
+      Notify.warning('Contact deleted');
+      dispatch(clearContactsOperation());
+    }
+  }, [contactsOperation, dispatch]);
 
   useEffect(() => {
     // if filter === null set filteredContacts from contacts
@@ -41,6 +64,19 @@ export const ContactsList = () => {
 
     setFilteredContacts(newContacts);
   }, [filter, contacts]);
+
+  useEffect(() => {
+    if (contactsOperation === FETCH_CONTACTS) {
+      if (contacts.length > 0) {
+        Notify.success(
+          `Contacts loaded successfully. Amount: ${contacts.length}.`
+        );
+      } else {
+        Notify.failure('No saved contacts found.');
+      }
+      dispatch(clearContactsOperation());
+    }
+  }, [dispatch, contactsOperation, contacts]);
 
   return (
     <ContactsListWrapper>

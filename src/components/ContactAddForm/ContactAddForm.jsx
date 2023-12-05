@@ -2,11 +2,13 @@ import { Button, Error, Input } from 'components';
 
 import {
   selectContacts,
-  SelectContactsError,
+  selectContactsError,
   selectContactsIsLoadingAdd,
+  selectContactsOperation,
 } from 'redux/contacts/selectors';
-import { addContact } from 'redux/contacts/operations';
+import { clearContactsOperation } from 'redux/contacts/slice';
 import { setFilter } from 'redux/filter/slice';
+import { addContact } from 'redux/contacts/operations';
 
 import { ContactAddFormWrapper } from './ContactAddForm.styled';
 
@@ -16,23 +18,47 @@ import { GoPersonAdd } from 'react-icons/go';
 import { BsTelephone } from 'react-icons/bs';
 import { FaRegUser } from 'react-icons/fa';
 
+import { ADD_CONTACT } from 'constans/operationType';
+
 import { Notify } from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
 
 export const ContactAddForm = () => {
   const dispatch = useDispatch();
 
   const contacts = useSelector(selectContacts);
   const isLoading = useSelector(selectContactsIsLoadingAdd);
-  const error = useSelector(SelectContactsError);
+  const error = useSelector(selectContactsError);
+  const operation = useSelector(selectContactsOperation);
 
-  const onFormSubmit = async e => {
+  const formRef = useRef(null);
+  const newContactName = useRef('');
+
+  useEffect(() => {
+    if (operation === ADD_CONTACT) {
+      Notify.success(
+        `The contact ${newContactName.current} successfully added.`
+      );
+
+      // reset form
+      formRef.current.reset();
+
+      // clean contact operation
+      dispatch(clearContactsOperation());
+    }
+  }, [operation, dispatch]);
+
+  const onFormSubmit = e => {
     e.preventDefault();
 
     // get form data
     const form = e.target;
     const name = form.elements.name.value.trim();
     const number = form.elements.number.value.trim();
+
+    // save form ref in useRef
+    formRef.current = form;
 
     // check form data
     if (!name || !number) {
@@ -46,6 +72,9 @@ export const ContactAddForm = () => {
       Notify.failure(`The contact with name: ${name} has already been added.`);
       return;
     }
+
+    // save new contact name in useRef
+    newContactName.current = name;
 
     // create new contact
     const newContact = { name, number };

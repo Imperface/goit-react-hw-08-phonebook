@@ -3,4 +3,5 @@ export const selectContactsIsLoadingAll = state => state.contacts.isLoadingAll;
 export const selectContactsIsLoadingAdd = state => state.contacts.isLoadingAdd;
 export const selectContactsIsLoadingDelete = state =>
   state.contacts.isLoadingDelete;
-export const SelectContactsError = state => state.contacts.error;
+export const selectContactsError = state => state.contacts.error;
+export const selectContactsOperation = state => state.contacts.operation;
